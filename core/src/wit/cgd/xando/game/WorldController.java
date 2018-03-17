@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 
 public class WorldController extends InputAdapter {
+	//test
 	private static final String TAG = WorldController.class.getName();
 	public float viewportWidth;
 	public int width, height;
