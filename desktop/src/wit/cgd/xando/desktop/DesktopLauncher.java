@@ -8,7 +8,6 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import wit.cgd.xando.game.XandOMain;
 
 public class DesktopLauncher {
-	//test
 	private static boolean  rebuildAtlas        = true;
 	private static boolean  drawDebugOutline    = true;
 	
