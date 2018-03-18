@@ -74,12 +74,13 @@ public class Assets implements Disposable, AssetErrorListener {
 			case "board":
 				region = atlas.findRegion("board");
 				break;
-			case "o":
-				region = atlas.findRegion("o");
-				break;
 			case "x":
 				region = atlas.findRegion("x");
 				break;
+			case "o":
+				region = atlas.findRegion("o");
+				break;
+
 			
 			}
 		}
