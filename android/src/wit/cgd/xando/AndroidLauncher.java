@@ -1,7 +1,6 @@
 package wit.cgd.xando;
 
 import android.os.Bundle;
-import wit.cgd.xando.game.XandOMain;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;

@@ -2,10 +2,13 @@ package wit.cgd.xando.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 
+
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
-import wit.cgd.xando.game.XandOMain;
+
+import wit.cgd.xando.XandOMain;
+
 
 public class DesktopLauncher {
 	private static boolean  rebuildAtlas        = true;
@@ -18,7 +21,8 @@ public class DesktopLauncher {
             settings.maxHeight = 1024;
             settings.debug = drawDebugOutline;
             TexturePacker.process(settings, "assets-raw/images", "../android/assets/images",
-                    "board.atlas");
+                    "xando.atlas");
+            
         }
 		
 		

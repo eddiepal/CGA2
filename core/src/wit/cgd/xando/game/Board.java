@@ -1,6 +1,9 @@
 package wit.cgd.xando.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import wit.cgd.xando.game.util.Constants;
 
 public class Board {
 	public static final String TAG = Board.class.getName();
@@ -20,18 +23,21 @@ public class Board {
 	public BasePlayer currentPlayer;
 	public HumanPlayer humanPlayer;
 
-	public Board(String filename) {
-		init(filename);
+	public Board() {
+		init();
 	}
 
-	private void init(String filename) {
+	private void init() {
 		// TODO Auto-generated method stub
 		start();
 	}
 
 	public void start() {
 		// TODO Auto-generated method stub
-		cells = new int[0][0];
+		for (int r = 0; r < 3; r++)
+			for (int c = 0; c < 3; c++)
+				cells[r][c] = EMPTY;
+
 		gameState = GameState.PLAYING;
 		currentPlayer = firstPlayer;
 	}
@@ -41,42 +47,90 @@ public class Board {
 	}
 
 	public boolean move(int row, int col) {
-		
+
 		if (currentPlayer.human) {
 			if (row < 0 || col < 0 || row > 2 || col > 2 || cells[row][col] != EMPTY) {
 				return false;
+			} else {
+
+				int pos = currentPlayer.move();
+				col = pos % 3;
+				row = pos / 3;
 			}
-			else {
-
-			int pos = currentPlayer.move();
-			col = pos % 3;
-			row = pos / 3;
 		}
+
+		cells[row][col] = currentPlayer.mySymbol;
+
+		// now have a valid move into an empty cell
+		// store move
+
+		if (hasWon(currentPlayer.mySymbol, row, col)) {
+			gameState = (currentPlayer.mySymbol == X ? GameState.X_WON : GameState.O_WON);
+		} else if (isDraw()) {
+			gameState = GameState.DRAW;
 		}
-		return false;
 
-	    // now have a valid move into an empty cell 
-/*	    store move
+		if (gameState == GameState.PLAYING) {
+			currentPlayer = (currentPlayer == firstPlayer ? secondPlayer : firstPlayer);
+		}
 
-	    check for win using method __hasWon()__ and update game state
-
-	    if still playing then check for draw using method __isDraw()__ and update game state
-
-	    if still playing then switch player*/
+		return true;
 	}
 
 	public boolean isDraw() {
-		return false;
+
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				if (cells[r][c] == EMPTY) {
+					return false;
+				}
+			}
+		}
+		return true;
 
 	}
 
 	public boolean hasWon(int symbol, int row, int col) {
-		return false;
-
+		return (
+		// rows
+		cells[row][0] == symbol && cells[row][1] == symbol && cells[row][2] == symbol ||
+		// columns
+		cells[0][col] == symbol && cells[1][col] == symbol && cells[2][col] == symbol ||
+		// backward diagonal
+		row == col && cells[0][0] == symbol && cells[1][1] == symbol && cells[2][2] == symbol ||
+		// forward diagonal
+		row + col == 2 && cells[0][2] == symbol && cells[1][1] == symbol && cells[2][0] == symbol);
 	}
 
 	public void render(SpriteBatch batch) {
+		TextureRegion region = Assets.instance.board.region;
+		batch.draw(region.getTexture(), -2,
+				-Constants.VIEWPORT_HEIGHT / 2 + 0.1f, 0, 0, 4, 4, 1, 1, 0,
+				region.getRegionX(), region.getRegionY(),
+				region.getRegionWidth(), region.getRegionHeight(), false, false);
 
+		for (int row = 0; row < 3; row++)
+			for (int col = 0; col < 3; col++) {
+				if (cells[row][col] == EMPTY) continue;
+				region = cells[row][col] == X ? Assets.instance.x.region
+						: Assets.instance.o.region;
+				batch.draw(region.getTexture(), col*1.4f-1.9f,
+						row*1.4f-2.3f, 0, 0, 1, 1, 1, 1, 0,
+						region.getRegionX(), region.getRegionY(),
+						region.getRegionWidth(), region.getRegionHeight(),
+						false, false);
+			}
+
+		// draw drag and drop pieces
+        region =  Assets.instance.x.region;
+        batch.draw(region.getTexture(), (-1) * 1.4f - 1.9f, 1 * 1.4f - 2.3f, 0, 0, 1, 1, 1, 1, 0,
+                region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(),
+                false, false);
+        region =  Assets.instance.o.region;
+        batch.draw(region.getTexture(), (3) * 1.4f - 1.9f, 1 * 1.4f - 2.3f, 0, 0, 1, 1, 1, 1, 0,
+                region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(),
+                false, false);
+		
 	}
 
 }
