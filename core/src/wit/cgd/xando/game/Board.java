@@ -28,12 +28,10 @@ public class Board {
 	}
 
 	private void init() {
-		// TODO Auto-generated method stub
 		start();
 	}
 
 	public void start() {
-		// TODO Auto-generated method stub
 		for (int r = 0; r < 3; r++)
 			for (int c = 0; c < 3; c++)
 				cells[r][c] = EMPTY;
@@ -59,6 +57,10 @@ public class Board {
 			}
 		}
 
+		System.out.println("Current palyer is human " + currentPlayer.human + " row " + row + " col " + col);
+		
+		if (true) return false;
+		
 		cells[row][col] = currentPlayer.mySymbol;
 
 		// now have a valid move into an empty cell
@@ -93,13 +95,13 @@ public class Board {
 	public boolean hasWon(int symbol, int row, int col) {
 		return (
 		// rows
-		cells[row][0] == symbol && cells[row][1] == symbol && cells[row][2] == symbol ||
+		(cells[row][0] == symbol && cells[row][1] == symbol && cells[row][2] == symbol) ||
 		// columns
-		cells[0][col] == symbol && cells[1][col] == symbol && cells[2][col] == symbol ||
+		(cells[0][col] == symbol && cells[1][col] == symbol && cells[2][col] == symbol) ||
 		// backward diagonal
-		row == col && cells[0][0] == symbol && cells[1][1] == symbol && cells[2][2] == symbol ||
+		(row == col && cells[0][0] == symbol && cells[1][1] == symbol && cells[2][2] == symbol) ||
 		// forward diagonal
-		row + col == 2 && cells[0][2] == symbol && cells[1][1] == symbol && cells[2][0] == symbol);
+		(row + col == 2 && cells[0][2] == symbol && cells[1][1] == symbol && cells[2][0] == symbol));
 	}
 
 	public void render(SpriteBatch batch) {
@@ -111,6 +113,7 @@ public class Board {
 
 		for (int row = 0; row < 3; row++)
 			for (int col = 0; col < 3; col++) {
+				if (true) continue;
 				if (cells[row][col] == EMPTY) continue;
 				region = cells[row][col] == X ? Assets.instance.x.region
 						: Assets.instance.o.region;
@@ -121,16 +124,6 @@ public class Board {
 						false, false);
 			}
 
-		// draw drag and drop pieces
-        region =  Assets.instance.x.region;
-        batch.draw(region.getTexture(), (-1) * 1.4f - 1.9f, 1 * 1.4f - 2.3f, 0, 0, 1, 1, 1, 1, 0,
-                region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(),
-                false, false);
-        region =  Assets.instance.o.region;
-        batch.draw(region.getTexture(), (3) * 1.4f - 1.9f, 1 * 1.4f - 2.3f, 0, 0, 1, 1, 1, 1, 0,
-                region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(),
-                false, false);
-		
 	}
 
 }

@@ -24,46 +24,27 @@ public class WorldController extends InputAdapter {
 		board.start();
 	}
 
-	//@Override
+	// @Override
 	public void update(float deltaTime) {
-		if(board.gameState == GameState.PLAYING) {
+		if (board.gameState == GameState.PLAYING) {
 			board.move();
 		}
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		 if (board.gameState == Board.GameState.PLAYING && board.currentPlayer.human) {
+		if (board.gameState == Board.GameState.PLAYING && board.currentPlayer.human) {
 
-	            // convert to cell position
-	            int row = 4 * (height - screenY) / height;
-	            int col = (int) (viewportWidth * (screenX - 0.5 * width) / width) + 1;
+			// convert to cell position
+			int row = 4 * (height - screenY) / height;
+			int col = (int) (viewportWidth * (screenX - 0.5 * width) / width) + 1;
 
-	            // board move - just place piece and return
-	            if (row >= 0 && row < 3 && col >= 0 && col < 3) {
-	                board.move(row, col);
-	                return true;
-	            }
-
-/*	            dragX = screenX;
-	            dragY = screenY;
-
-	            // check if valid start of a drag for first player
-	            if (row == 1 && col == -1 && board.currentPlayer == board.firstPlayer) {
-	                dragging = true;
-	                dragRegion = Assets.instance.x.region;
-	                return true;
-	            }
-	            // check if valid start of a drag for second player
-	            if (row == 1 && col == 3 && board.currentPlayer == board.secondPlayer) {
-	                dragging = true;
-	                dragRegion = Assets.instance.o.region;*/
-	                return true;
-	            }
-
-	        
-
-	        return true;
-	    }
+			// board move - just place piece and return
+			if (row >= 0 && row < 3 && col >= 0 && col < 3) {
+				board.move(row, col);
+			}
+		}
+		return false;
+	}
 
 }

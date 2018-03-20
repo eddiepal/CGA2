@@ -40,7 +40,6 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public void init(AssetManager assetManager) {
-    	
 
         this.assetManager = assetManager;
         

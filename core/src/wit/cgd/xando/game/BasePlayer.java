@@ -10,11 +10,13 @@ public abstract class BasePlayer {
 
     public BasePlayer(Board board, int symbol) {
     	this.board = board;
+    	setSymbol(symbol);
+    	human = false;
     }
     
     public void setSymbol(int symbol) {
     	mySymbol = board.X;
-    	opponentSymbol = board.O;
+    	opponentSymbol = (symbol == board.X) ? board.O : board.X;
     }
     
     public abstract int move ();
