@@ -1,12 +1,14 @@
 package wit.cgd.xando.game;
 
+import wit.cgd.xando.game.util.Constants;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import wit.cgd.xando.game.util.Constants;
-
 public class Board {
-	public static final String TAG = Board.class.getName();
+
+	@SuppressWarnings("unused")
+	private static final String TAG = WorldRenderer.class.getName();
 
 	public static enum GameState {
 		PLAYING, DRAW, X_WON, O_WON
@@ -21,13 +23,12 @@ public class Board {
 
 	public BasePlayer firstPlayer, secondPlayer;
 	public BasePlayer currentPlayer;
-	public HumanPlayer humanPlayer;
 
 	public Board() {
 		init();
 	}
 
-	private void init() {
+	public void init() {
 		start();
 	}
 
@@ -47,61 +48,62 @@ public class Board {
 	public boolean move(int row, int col) {
 
 		if (currentPlayer.human) {
-			if (row < 0 || col < 0 || row > 2 || col > 2 || cells[row][col] != EMPTY) {
+			if (row < 0 || col < 0 || row > 2 || col > 2
+					|| cells[row][col] != EMPTY)
 				return false;
-			} else {
-
-				int pos = currentPlayer.move();
-				col = pos % 3;
-				row = pos / 3;
-			}
+		} else { // computer player
+			int pos = currentPlayer.move();
+			col = pos % 3;
+			row = pos / 3;
 		}
 
-		System.out.println("Current player is human " + currentPlayer.human + " row " + row + " col " + col);
-		
-		if (true) return false;
-		
+		System.out.println(" " + currentPlayer.human + " " + row + " " + col);
+		// store move
 		cells[row][col] = currentPlayer.mySymbol;
 
-		// now have a valid move into an empty cell
-		// store move
-
+		System.out.print("Board:");
+		for (int r=0; r<3; r++)
+			for (int c=0; c<3; c++)
+				System.out.print(" " + cells[r][c]);
+		System.out.println();
 		if (hasWon(currentPlayer.mySymbol, row, col)) {
-			gameState = (currentPlayer.mySymbol == X ? GameState.X_WON : GameState.O_WON);
+			gameState = currentPlayer.mySymbol == X ? GameState.X_WON
+					: GameState.O_WON;
 		} else if (isDraw()) {
 			gameState = GameState.DRAW;
 		}
 
+		// switch player
 		if (gameState == GameState.PLAYING) {
-			currentPlayer = (currentPlayer == firstPlayer ? secondPlayer : firstPlayer);
+			currentPlayer = (currentPlayer == firstPlayer ? secondPlayer
+					: firstPlayer);
 		}
 
 		return true;
 	}
 
 	public boolean isDraw() {
-
-		for (int r = 0; r < 3; r++) {
-			for (int c = 0; c < 3; c++) {
+		for (int r = 0; r < 3; ++r) {
+			for (int c = 0; c < 3; ++c) {
 				if (cells[r][c] == EMPTY) {
-					return false;
+					return false; // an empty seed found, not a draw, exit
 				}
 			}
 		}
-		return true;
-
+		return true; // no empty cell, it's a draw
 	}
 
 	public boolean hasWon(int symbol, int row, int col) {
 		return (
-		// rows
-		(cells[row][0] == symbol && cells[row][1] == symbol && cells[row][2] == symbol) ||
-		// columns
-		(cells[0][col] == symbol && cells[1][col] == symbol && cells[2][col] == symbol) ||
-		// backward diagonal
-		(row == col && cells[0][0] == symbol && cells[1][1] == symbol && cells[2][2] == symbol) ||
-		// forward diagonal
-		(row + col == 2 && cells[0][2] == symbol && cells[1][1] == symbol && cells[2][0] == symbol));
+			// 3-in-the-row
+			cells[row][0] == symbol && cells[row][1] == symbol && cells[row][2] == symbol
+			||  // 3-in-the-column
+			cells[0][col] == symbol && cells[1][col] == symbol && cells[2][col] == symbol
+			||  // 3-in-the-diagonal
+			row == col && cells[0][0] == symbol && cells[1][1] == symbol && cells[2][2] == symbol 
+			|| // 3-in-the-opposite-diagonal
+			row + col == 2 && cells[0][2] == symbol && cells[1][1] == symbol && cells[2][0] == symbol
+		);
 	}
 
 	public void render(SpriteBatch batch) {
@@ -113,7 +115,6 @@ public class Board {
 
 		for (int row = 0; row < 3; row++)
 			for (int col = 0; col < 3; col++) {
-				if (true) continue;
 				if (cells[row][col] == EMPTY) continue;
 				region = cells[row][col] == X ? Assets.instance.x.region
 						: Assets.instance.o.region;
