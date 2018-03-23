@@ -58,9 +58,8 @@ public class WorldRenderer implements Disposable {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        System.out.println("ooooo");
         worldController.board.render(batch);
-        System.out.println("bbbbb");
+        //System.out.println("bbbbb");
         batch.end();
 	}
 

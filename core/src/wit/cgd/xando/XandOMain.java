@@ -43,11 +43,11 @@ public class XandOMain extends Game {
 			worldController.update(Gdx.graphics.getRawDeltaTime());
 		}
 		
-		Gdx.gl.glClearColor(0,1,0,0);
+		Gdx.gl.glClearColor(0,1,1,0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		worldRenderer.render();
-		System.out.println("pppppp");
+		//System.out.println("pppppp");
 
 	}
 	

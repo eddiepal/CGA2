@@ -57,7 +57,7 @@ public class Board {
 			}
 		}
 
-		System.out.println("Current palyer is human " + currentPlayer.human + " row " + row + " col " + col);
+		System.out.println("Current player is human " + currentPlayer.human + " row " + row + " col " + col);
 		
 		if (true) return false;
 		
