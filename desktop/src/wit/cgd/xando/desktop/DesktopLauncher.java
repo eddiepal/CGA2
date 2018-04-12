@@ -8,7 +8,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import wit.cgd.xando.XandOMain;
 
 public class DesktopLauncher {
-	private static boolean  rebuildAtlas        = true;
+	private static boolean  rebuildAtlas        = false;
 	private static boolean  drawDebugOutline    = true;
 
 	public static void main (String[] arg) {
@@ -20,6 +20,8 @@ public class DesktopLauncher {
             settings.debug = drawDebugOutline;
             TexturePacker.process(settings, "assets-raw/images", "../android/assets/images",
                     "xando.atlas");
+            TexturePacker.process(settings, "assets-raw/images-ui", "../android/assets/images",
+                    "ui.atlas");
         }
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

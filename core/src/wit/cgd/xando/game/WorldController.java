@@ -1,7 +1,12 @@
 package wit.cgd.xando.game;
 
 import wit.cgd.xando.game.ai.FirstSpacePlayer;
+import wit.cgd.xando.game.util.GameStats;
+
+import com.badlogic.gdx.Game;
+import wit.cgd.xando.screens.MenuScreen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 
 public class WorldController extends InputAdapter {
@@ -18,11 +23,17 @@ public class WorldController extends InputAdapter {
     final int                   GAME_COUNT = 100;
     public int                  gameCount = 0;
     public int                  win=0, draw=0, loss=0;
+    private Game                game;
+
+    private void backToMenu() {
+        // switch to menu screen
+        game.setScreen(new MenuScreen(game));
+    }
 	
-	public WorldController() {
-		
-		init();
-	}
+    public WorldController(Game game) {
+        this.game = game;
+        init();
+    }
 	
 	    private void init() {
 	        Gdx.input.setInputProcessor(this);
@@ -44,34 +55,26 @@ public class WorldController extends InputAdapter {
 	    }
 	
 	
-public void update(float deltaTime) {
-    if (board.gameState == Board.GameState.PLAYING) {
-        board.move();
-    } else {
-        timeLeftGameOverDelay -= deltaTime;
-        if (timeLeftGameOverDelay < 0) {
-            gameCount++;
-            if (board.gameState == Board.GameState.X_WON) {
-                win++;
-            } else if (board.gameState == Board.GameState.O_WON) {
-                loss++;
-            } else {
-                assert (board.gameState == Board.GameState.DRAW);
-                draw++;
-            }
+	    public void update(float deltaTime) {
+	        if (board.gameState == Board.GameState.PLAYING) {
+	            board.move();
+	        }
 
-            if (gameCount==GAME_COUNT) {
-                Gdx.app.log(TAG,
-                    "\nPlayeed "+ gameCount + " games \t" + board.firstPlayer.name + " vs "+ board.secondPlayer.name +
-                    "\n\t X  win \t"+ win + "\t X draw \t"+ draw + "\t X loss \t"+ loss); 
-                Gdx.app.exit();
-            }
-            board.start();
-            timeLeftGameOverDelay = TIME_LEFT_GAME_OVER_DELAY;
-            board.gameState = Board.GameState.PLAYING;
-        }
-    }
-}
+	        if (board.gameState != Board.GameState.PLAYING) {
+	            timeLeftGameOverDelay -= deltaTime;
+	            if (timeLeftGameOverDelay < 0) {
+	                backToMenu();
+	            }
+	        }
+	        
+	        if (board.gameState== Board.GameState.X_WON) {
+	            GameStats.instance.win();
+	        } else if (board.gameState== Board.GameState.O_WON) {
+	            GameStats.instance.lose();
+	        } else {
+	            GameStats.instance.draw();
+	        }
+	    }
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -89,6 +92,14 @@ public void update(float deltaTime) {
 
 		return true;
 
+	}
+	
+	@Override
+	public boolean keyUp(int keycode) {
+	    if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
+	        backToMenu();
+	    }
+	    return false;
 	}
 
 }
