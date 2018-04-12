@@ -20,7 +20,7 @@ public class GameStats {
 
     public void load() {
     	gameCount = prefs.getInteger("gameCount", 0);
-    	currentStreak = prefs.getInteger("currentStreak", 1);
+    	currentStreak = prefs.getInteger("currentStreak", 0);
     	longestStreak = prefs.getInteger("longestStreak", 0);
 
     }
@@ -32,8 +32,8 @@ public class GameStats {
     	prefs.flush();
     }       
     
-    public void win() { 
-    	currentStreak = prefs.getInteger("currentStreak", 1);
+    public void win() {
+    	
     }
     public void lose() { }
     public void draw() { }
