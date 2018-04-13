@@ -1,5 +1,6 @@
 package wit.cgd.xando.game;
 
+import wit.cgd.xando.game.util.AudioManager;
 import wit.cgd.xando.game.util.Constants;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -42,7 +43,9 @@ public class Board {
 	}
 
 	public boolean move() {
+		AudioManager.instance.play(Assets.instance.sounds.first);
 		return move(-1, -1);
+		
 	}
 
 	public boolean move(int row, int col) {
@@ -69,9 +72,12 @@ public class Board {
 		if (hasWon(currentPlayer.mySymbol, row, col)) {
 			gameState = currentPlayer.mySymbol == X ? GameState.X_WON
 					: GameState.O_WON;
+			AudioManager.instance.play(Assets.instance.sounds.first);
 		} else if (isDraw()) {
 			gameState = GameState.DRAW;
+			AudioManager.instance.play(Assets.instance.sounds.first);
 		}
+		
 
 		// switch player
 		if (gameState == GameState.PLAYING) {

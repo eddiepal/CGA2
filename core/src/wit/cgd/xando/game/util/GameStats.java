@@ -32,11 +32,21 @@ public class GameStats {
     	prefs.flush();
     }       
     
-    public void win() {
+    public void win() { 
+    	gameCount++;
+    	currentStreak++;
+    	longestStreak++;
+    }
+    public void lose() { 
+    	gameCount++;
     	
     }
-    public void lose() { }
-    public void draw() { }
-    public void reset() { }
+    public void draw() { 
+    	gameCount++ ;
+    }
+    
+    public void reset(){
+    	load();
+    }
 
 }

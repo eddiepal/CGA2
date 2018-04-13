@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-
+import wit.cgd.xando.game.util.AudioManager;
 import wit.cgd.xando.game.util.Constants;
 import wit.cgd.xando.game.util.GamePreferences;
 import wit.cgd.xando.game.util.GameStats;
@@ -96,7 +96,7 @@ public class MenuScreen extends AbstractGameScreen {
         return table;
     }
 
-    private Table buildStatsLayer() {
+    /*private Table buildStatsLayer() {
     	gameCountLabel = new Label("Number of games played: " + GameStats.instance.gameCount, skin);
 
         Table table = new Table();
@@ -119,11 +119,40 @@ public class MenuScreen extends AbstractGameScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 onResetStatsClicked();
             }
+        });*/
+    
+    private Table buildStatsLayer() {
+
+        Table table = new Table();
+        table.left().top();
+
+        gameCountLabel = new Label("Number of games played: " + 
+        		GameStats.instance.gameCount, skin);
+        table.add(gameCountLabel).left();
+        table.row();
+        currentStreakLabel = new Label("Length of current winning streak: " + 
+        		GameStats.instance.currentStreak, skin);
+        table.add(currentStreakLabel).left();
+        table.row();
+        longestStreakLabel = new Label("Longest winning streak: " + 
+        		GameStats.instance.longestStreak, skin);
+        table.add(longestStreakLabel).left();
+
+        table.row();
+        resetStatsButton = new Button(skin, "reset");
+        table.add(resetStatsButton).pad(Constants.BUTTON_PAD);
+        resetStatsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                onResetStatsClicked();
+            }
         });
 
         if (debugEnabled) table.debug();
         return table;
     }
+
+
     
     private void onResetStatsClicked() { 
     	GameStats.instance.reset();
@@ -161,9 +190,31 @@ public class MenuScreen extends AbstractGameScreen {
     private void onPlayClicked() { 
     	game.setScreen(new GameScreen(game));
     }
+    
+    private void onOptionsClicked() { 
+        playButton.setVisible(false);
+        optionsButton.setVisible(false);
+        resetStatsButton.setVisible(false);
+        optionsWindow.setVisible(true);
+        loadSettings();     
+    }
+    
+    private void onSaveClicked () {
+    	  saveSettings();
+    	  onCancelClicked();
+    	  AudioManager.instance.onSettingsUpdated();
+    	}
 
-    private void onOptionsClicked() { }
-/*    private Table buildOptionsWindowLayer() {
+    	private void onCancelClicked() {
+    	    playButton.setVisible(true);
+    	    optionsButton.setVisible(true);
+    	    resetStatsButton.setVisible(true);
+    	    optionsWindow.setVisible(false);
+    	    AudioManager.instance.onSettingsUpdated();
+    	}
+
+/*    private void onOptionsClicked() { }
+    private Table buildOptionsWindowLayer() {
         Table table = new Table();
         return table;
     }*/
@@ -173,17 +224,109 @@ public class MenuScreen extends AbstractGameScreen {
         // create instance of window
         optionsWindow = new Window("Options", defaultSkin);
 
-        // first (X) player settings
+        optionsWindow.add(new Label("First Player",defaultSkin)).colspan(3);
+        optionsWindow.row();
+        firstPlayerHumanCheckBox = new CheckBox("Human ?", defaultSkin);
+        optionsWindow.add(firstPlayerHumanCheckBox);
+        firstPlayerHumanCheckBox.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                CheckBox me = (CheckBox) actor;
+                if (me.isChecked()) {
+                    firstPlayerSkillSlider.setDisabled(true);
+                    firstPlayerSkillLabel.setColor(skin.getColor("gray"));
+                } else {
+                    firstPlayerSkillSlider.setDisabled(false);
+                    firstPlayerSkillLabel.setColor(skin.getColor("white"));
+                }
+            }
+          });
+        firstPlayerSkillLabel = new Label("Skill:",defaultSkin);
+        optionsWindow.add(firstPlayerSkillLabel);
+            firstPlayerSkillSlider = new Slider(0,10,1,false, defaultSkin);
+        optionsWindow.add(firstPlayerSkillSlider);
+        optionsWindow.row().padBottom(10);
 
-        // second (O) player settings
+        optionsWindow.add(new Label("Second Player",defaultSkin)).colspan(3);
+        optionsWindow.row();
+        secondPlayerHumanCheckBox = new CheckBox("Human ?", defaultSkin);
+        optionsWindow.add(secondPlayerHumanCheckBox);
+        secondPlayerHumanCheckBox.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                CheckBox me = (CheckBox) actor;
+                if (me.isChecked()) {
+                    firstPlayerSkillSlider.setDisabled(true);
+                    firstPlayerSkillLabel.setColor(skin.getColor("gray"));
+                } else {
+                    firstPlayerSkillSlider.setDisabled(false);
+                    firstPlayerSkillLabel.setColor(skin.getColor("white"));
+                }
+            }
+          });
+        secondPlayerSkillLabel = new Label("Skill:",defaultSkin);
+        optionsWindow.add(secondPlayerSkillLabel);
+        secondPlayerSkillSlider = new Slider(0,10,1,false, defaultSkin);
+        optionsWindow.add(secondPlayerSkillSlider);
+        optionsWindow.row().padBottom(10);
 
-        // sound settings
+     // sound settings
+        optionsWindow.add(new Label("Sound Effects",defaultSkin)).colspan(3);
+        optionsWindow.row();
+        soundCheckBox = new CheckBox("On", defaultSkin);
+        optionsWindow.add(soundCheckBox);
+        soundCheckBox.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                CheckBox me = (CheckBox) actor;
+                soundSlider.setDisabled(!me.isChecked());
+            }
+          });
+        soundSlider = new Slider(0.0f,1.0f,0.1f,false, defaultSkin);
+        optionsWindow.add(musicSlider).colspan(2);
+        optionsWindow.row().padBottom(10);
 
         // music settings
+        optionsWindow.add(new Label("Music Effects",defaultSkin)).colspan(3);
+        optionsWindow.row();
+        musicCheckBox = new CheckBox("On", defaultSkin);
+        optionsWindow.add(soundCheckBox);
+        musicCheckBox.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                CheckBox me = (CheckBox) actor;
+                soundSlider.setDisabled(!me.isChecked());
+            }
+          });
+        musicSlider = new Slider(0.0f,1.0f,0.1f,false, defaultSkin);
+        optionsWindow.add(musicSlider).colspan(2);
+        optionsWindow.row().padBottom(10);
 
-        // cancel and save buttons 
+        // cancel and save buttons
+        optionsCancelButton = new Button(skin, "cancel");
+        optionsWindow.add(optionsCancelButton).pad(Constants.BUTTON_PAD);
+        optionsCancelButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+              onCancelClicked();
+            }
+          });
+        optionsSaveButton = new Button(skin, "save");
+        optionsWindow.add(optionsSaveButton).pad(Constants.BUTTON_PAD);;
+        optionsSaveButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+              onSaveClicked();
+            }
+          });
 
         // tidy up window = resize and center
+        optionsWindow.setColor(1, 1, 1, 0.8f);
+        optionsWindow.setVisible(false);
+        if (debugEnabled) optionsWindow.debug();
+        optionsWindow.pack();
+        optionsWindow.setPosition((Constants.VIEWPORT_GUI_WIDTH - optionsWindow.getWidth())/2,
+                        (Constants.VIEWPORT_GUI_HEIGHT - optionsWindow.getHeight())/2);
 
         // return constructed window
         return optionsWindow;
@@ -191,24 +334,22 @@ public class MenuScreen extends AbstractGameScreen {
     
     private void loadSettings() {
         GamePreferences prefs = GamePreferences.instance;
+        firstPlayerHumanCheckBox.setChecked(prefs.firstPlayerHuman);
+        firstPlayerSkillSlider.setValue(prefs.firstPlayerSkill);
         prefs.load();
 
         // set each widget using values in prefs
+
     }
     
     private void saveSettings() {
         GamePreferences prefs = GamePreferences.instance;
+        prefs.firstPlayerHuman = firstPlayerHumanCheckBox.isChecked();
+        prefs.firstPlayerSkill = firstPlayerSkillSlider.getValue();
 
         // save each widget value into prefs
 
         prefs.save();
-    }
-
-    
-    private void onSaveClicked() {
-    }
-
-    private void onCancelClicked() {
     }
 
     @Override

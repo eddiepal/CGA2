@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -26,6 +28,8 @@ public class Assets implements Disposable, AssetErrorListener {
 	public Asset board;
 	public Asset x;
 	public Asset o;
+	public AssetSounds          sounds;
+	public AssetMusic           music;
 
 	public class Asset {
 		public final AtlasRegion region;
@@ -86,6 +90,43 @@ public class Assets implements Disposable, AssetErrorListener {
 		board = new Asset(atlas, "board");
 		x = new Asset(atlas, "x");		
 		o = new Asset(atlas, "o");
+		
+		// load sounds
+		assetManager.load("sounds/first.wav", Sound.class);
+		assetManager.load("sounds/second.wav", Sound.class);
+		assetManager.load("sounds/win.wav", Sound.class);
+		assetManager.load("sounds/draw.wav", Sound.class);
+
+		// load music
+		assetManager.load("music/keith303_-_brand_new_highscore.mp3", Music.class);
+		assetManager.finishLoading();
+		sounds = new AssetSounds(assetManager);
+		music = new AssetMusic(assetManager);
+		
+		
+	}
+	
+	public class AssetSounds {
+
+	    public final Sound  first;
+	    public final Sound  second;
+	    public final Sound  win;
+	    public final Sound  draw;
+
+	    public AssetSounds(AssetManager am) {
+	        first = am.get("sounds/first.wav", Sound.class);
+	        second = am.get("sounds/second.wav", Sound.class);
+	        win = am.get("sounds/win.wav", Sound.class);
+	        draw = am.get("sounds/draw.wav", Sound.class);
+	    }
+	}
+	
+	public class AssetMusic {
+	    public final Music  song01;
+
+	    public AssetMusic(AssetManager am) {
+	        song01 = am.get("music/keith303_-_brand_new_highscore.mp3", Music.class);
+	    }
 	}
 	
 	
