@@ -54,7 +54,7 @@ public class WorldController extends InputAdapter {
 /*	        board.firstPlayer = new HumanPlayer(board, board.X);
 	        board.secondPlayer = new CheckAndImpactPlayer(board, board.O);*/
 	        board.firstPlayer = new HumanPlayer(board, board.X);
-	        board.secondPlayer = new MinimaxPlayer(board, board.O);
+	        board.secondPlayer = new HumanPlayer(board, board.O);
 
 	        timeLeftGameOverDelay = TIME_LEFT_GAME_OVER_DELAY;
 	        board.start();

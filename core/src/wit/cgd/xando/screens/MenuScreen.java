@@ -283,19 +283,19 @@ public class MenuScreen extends AbstractGameScreen {
             }
           });
         soundSlider = new Slider(0.0f,1.0f,0.1f,false, defaultSkin);
-        optionsWindow.add(musicSlider).colspan(2);
+        optionsWindow.add(soundSlider).colspan(2);
         optionsWindow.row().padBottom(10);
 
         // music settings
         optionsWindow.add(new Label("Music Effects",defaultSkin)).colspan(3);
         optionsWindow.row();
         musicCheckBox = new CheckBox("On", defaultSkin);
-        optionsWindow.add(soundCheckBox);
+        optionsWindow.add(musicCheckBox);
         musicCheckBox.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 CheckBox me = (CheckBox) actor;
-                soundSlider.setDisabled(!me.isChecked());
+                musicSlider.setDisabled(!me.isChecked());
             }
           });
         musicSlider = new Slider(0.0f,1.0f,0.1f,false, defaultSkin);
@@ -336,6 +336,10 @@ public class MenuScreen extends AbstractGameScreen {
         GamePreferences prefs = GamePreferences.instance;
         firstPlayerHumanCheckBox.setChecked(prefs.firstPlayerHuman);
         firstPlayerSkillSlider.setValue(prefs.firstPlayerSkill);
+        musicCheckBox.setChecked(prefs.music);
+        musicSlider.setValue(prefs.musicVolume);
+        soundCheckBox.setChecked(prefs.sound);
+        soundSlider.setValue(prefs.soundVolume);
         prefs.load();
 
         // set each widget using values in prefs
@@ -346,9 +350,11 @@ public class MenuScreen extends AbstractGameScreen {
         GamePreferences prefs = GamePreferences.instance;
         prefs.firstPlayerHuman = firstPlayerHumanCheckBox.isChecked();
         prefs.firstPlayerSkill = firstPlayerSkillSlider.getValue();
-
+        prefs.music = musicCheckBox.isChecked();
+        prefs.musicVolume = musicSlider.getValue();
+        prefs.sound = soundCheckBox.isChecked();
+        prefs.soundVolume = soundSlider.getValue();
         // save each widget value into prefs
-
         prefs.save();
     }
 

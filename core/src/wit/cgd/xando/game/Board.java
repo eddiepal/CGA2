@@ -43,7 +43,6 @@ public class Board {
 	}
 
 	public boolean move() {
-		AudioManager.instance.play(Assets.instance.sounds.first);
 		return move(-1, -1);
 		
 	}
@@ -54,10 +53,12 @@ public class Board {
 			if (row < 0 || col < 0 || row > 2 || col > 2
 					|| cells[row][col] != EMPTY)
 				return false;
+			AudioManager.instance.play(Assets.instance.sounds.first);
 		} else { // computer player
 			int pos = currentPlayer.move();
 			col = pos % 3;
 			row = pos / 3;
+			AudioManager.instance.play(Assets.instance.sounds.second);
 		}
 
 		System.out.println(" " + currentPlayer.human + " " + row + " " + col);
@@ -72,10 +73,10 @@ public class Board {
 		if (hasWon(currentPlayer.mySymbol, row, col)) {
 			gameState = currentPlayer.mySymbol == X ? GameState.X_WON
 					: GameState.O_WON;
-			AudioManager.instance.play(Assets.instance.sounds.first);
+			AudioManager.instance.play(Assets.instance.sounds.win);
 		} else if (isDraw()) {
 			gameState = GameState.DRAW;
-			AudioManager.instance.play(Assets.instance.sounds.first);
+			AudioManager.instance.play(Assets.instance.sounds.draw);
 		}
 		
 
