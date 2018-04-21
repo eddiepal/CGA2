@@ -2,6 +2,7 @@ package wit.cgd.xando.game;
 
 import wit.cgd.xando.game.util.AudioManager;
 import wit.cgd.xando.game.util.Constants;
+import wit.cgd.xando.game.util.GameStats;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,6 +22,7 @@ public class Board {
 	public final int X = 1;
 	public final int O = 2;
 	public int[][] cells = new int[3][3];
+	GameStats stats;
 
 	public BasePlayer firstPlayer, secondPlayer;
 	public BasePlayer currentPlayer;
@@ -131,7 +133,17 @@ public class Board {
 						region.getRegionWidth(), region.getRegionHeight(),
 						false, false);
 			}
+		
+        // draw drag and drop pieces
 
+        region =  Assets.instance.x.region;
+        batch.draw(region.getTexture(), (-1) * 1.4f - 1.9f, 1 * 1.4f - 2.3f, 0, 0, 1, 1, 1, 1, 0,
+                region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(),
+                false, false);
+        region =  Assets.instance.o.region;
+        batch.draw(region.getTexture(), (3) * 1.4f - 1.9f, 1 * 1.4f - 2.3f, 0, 0, 1, 1, 1, 1, 0,
+                region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(),
+                false, false);
 	}
 
 }

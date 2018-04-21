@@ -56,9 +56,30 @@ public class WorldRenderer implements Disposable {
 		worldController.board.render(batch);
 		batch.end();
 		
+		batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        worldController.board.render(batch);
+
+        if (worldController.dragging) {
+
+            float x = worldController.dragX;
+            x = (float) (worldController.viewportWidth * (x - 0.55 * worldController.width) / worldController.width);
+
+            float y = worldController.dragY;
+            y = (float) (4.0 * (worldController.height - y) / worldController.height-2.6);
+
+            batch.draw(worldController.dragRegion.getTexture(), 
+                    x, y, 0, 0, 1, 1, 1, 1, 0,
+                    worldController.dragRegion.getRegionX(), worldController.dragRegion.getRegionY(), 
+                    worldController.dragRegion.getRegionWidth(), worldController.dragRegion.getRegionHeight(),
+                    false, false);
+        }
+
+        batch.end();
+		
 		// GUI rendering
 		
-		batch.setProjectionMatrix(cameraGUI.combined);
+        batch.setProjectionMatrix(cameraGUI.combined);
 		batch.begin();
 		if (worldController.board.gameState != Board.GameState.PLAYING) {
 			float x = cameraGUI.viewportWidth / 2;
