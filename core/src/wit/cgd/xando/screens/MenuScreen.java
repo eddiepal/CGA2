@@ -96,7 +96,7 @@ public class MenuScreen extends AbstractGameScreen {
         return table;
     }
 
-    /*private Table buildStatsLayer() {
+/*    private Table buildStatsLayer() {
     	gameCountLabel = new Label("Number of games played: " + GameStats.instance.gameCount, skin);
 
         Table table = new Table();
@@ -119,7 +119,9 @@ public class MenuScreen extends AbstractGameScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 onResetStatsClicked();
             }
-        });*/
+        });
+		return table;
+    }*/
     
     private Table buildStatsLayer() {
 
@@ -256,11 +258,11 @@ public class MenuScreen extends AbstractGameScreen {
             public void changed (ChangeEvent event, Actor actor) {
                 CheckBox me = (CheckBox) actor;
                 if (me.isChecked()) {
-                    firstPlayerSkillSlider.setDisabled(true);
-                    firstPlayerSkillLabel.setColor(skin.getColor("gray"));
+                    secondPlayerSkillSlider.setDisabled(true);
+                    secondPlayerSkillLabel.setColor(skin.getColor("gray"));
                 } else {
-                    firstPlayerSkillSlider.setDisabled(false);
-                    firstPlayerSkillLabel.setColor(skin.getColor("white"));
+                    secondPlayerSkillSlider.setDisabled(false);
+                    secondPlayerSkillLabel.setColor(skin.getColor("white"));
                 }
             }
           });
@@ -336,6 +338,8 @@ public class MenuScreen extends AbstractGameScreen {
         GamePreferences prefs = GamePreferences.instance;
         firstPlayerHumanCheckBox.setChecked(prefs.firstPlayerHuman);
         firstPlayerSkillSlider.setValue(prefs.firstPlayerSkill);
+        secondPlayerHumanCheckBox.setChecked(prefs.secondPlayerHuman);
+        secondPlayerSkillSlider.setValue(prefs.secondPlayerSkill);
         musicCheckBox.setChecked(prefs.music);
         musicSlider.setValue(prefs.musicVolume);
         soundCheckBox.setChecked(prefs.sound);
@@ -350,6 +354,8 @@ public class MenuScreen extends AbstractGameScreen {
         GamePreferences prefs = GamePreferences.instance;
         prefs.firstPlayerHuman = firstPlayerHumanCheckBox.isChecked();
         prefs.firstPlayerSkill = firstPlayerSkillSlider.getValue();
+        prefs.secondPlayerHuman = secondPlayerHumanCheckBox.isChecked();
+        prefs.secondPlayerSkill = secondPlayerSkillSlider.getValue();
         prefs.music = musicCheckBox.isChecked();
         prefs.musicVolume = musicSlider.getValue();
         prefs.sound = soundCheckBox.isChecked();

@@ -14,6 +14,7 @@ public class GamePreferences {
 	public boolean sound;
 	public float musicVolume;
 	public float soundVolume;
+	public float gameCount;
 	
     public static final String          TAG         = GamePreferences.class.getName();
 
@@ -33,12 +34,11 @@ public class GamePreferences {
     			MathUtils.clamp(secondPlayerSkill, 0, 10));
     	music = prefs.getBoolean("music");
     	sound = prefs.getBoolean("sound");
-    	
     }
 
     public void save() {
     	prefs.putBoolean("firstPlayerHuman", firstPlayerHuman);
-    	prefs.putBoolean("secondPlayerHuman", firstPlayerHuman);
+    	prefs.putBoolean("secondPlayerHuman", secondPlayerHuman);
     	prefs.putBoolean("music", music);
     	prefs.putBoolean("sound", sound);
     	prefs.putFloat("firstPlayerSkill", firstPlayerSkill);
