@@ -3,12 +3,14 @@ package wit.cgd.xando.game;
 import wit.cgd.xando.game.ai.CheckAndImpactPlayer;
 import wit.cgd.xando.game.ai.FirstSpacePlayer;
 import wit.cgd.xando.game.ai.MinimaxPlayer;
+import wit.cgd.xando.game.util.GamePreferences;
 import wit.cgd.xando.game.util.GameStats;
 
 import com.badlogic.gdx.Game;
 import wit.cgd.xando.screens.MenuScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -54,9 +56,27 @@ public class WorldController extends InputAdapter {
 		// RandomImpactSpacePlayer
 		// CheckAndImpactPlayer
 		// MinimaxPlayer
-		
-		board.firstPlayer = new HumanPlayer(board, board.X);
-		board.secondPlayer = new HumanPlayer(board, board.O);
+
+
+	        if (!GamePreferences.instance.firstPlayerHuman) {
+	    		board.firstPlayer = new MinimaxPlayer(board, board.X);
+	    		board.secondPlayer = new HumanPlayer(board, board.O);
+	        }
+	        
+	        if (!GamePreferences.instance.secondPlayerHuman) {
+	    		board.firstPlayer = new HumanPlayer(board, board.X);
+	    		board.secondPlayer = new MinimaxPlayer(board, board.O);
+	        }
+	        
+	        if (!GamePreferences.instance.firstPlayerHuman&&!GamePreferences.instance.secondPlayerHuman) {
+	    		board.firstPlayer = new MinimaxPlayer(board, board.X);
+	    		board.secondPlayer = new MinimaxPlayer(board, board.O);
+	        }
+	        if (GamePreferences.instance.firstPlayerHuman&&GamePreferences.instance.secondPlayerHuman) {
+	    		board.firstPlayer = new HumanPlayer(board, board.X);
+	    		board.secondPlayer = new HumanPlayer(board, board.O);	
+	    }
+
 
 		timeLeftGameOverDelay = TIME_LEFT_GAME_OVER_DELAY;
 		board.start();

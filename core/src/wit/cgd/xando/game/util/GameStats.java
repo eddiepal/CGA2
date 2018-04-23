@@ -35,10 +35,13 @@ public class GameStats {
     public void win() { 
     	gameCount++;
     	currentStreak++;
+    	if(longestStreak<currentStreak) {
     	longestStreak++;
+    	}
     }
     public void lose() { 
     	gameCount++;
+    	currentStreak=0;
     	
     }
     public void draw() { 

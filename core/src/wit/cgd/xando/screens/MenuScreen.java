@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import wit.cgd.xando.game.WorldRenderer;
 import wit.cgd.xando.game.util.AudioManager;
 import wit.cgd.xando.game.util.Constants;
 import wit.cgd.xando.game.util.GamePreferences;
@@ -59,6 +60,8 @@ public class MenuScreen extends AbstractGameScreen {
 	private final float         DEBUG_REBUILD_INTERVAL  = 5.0f;
 	private boolean             debugEnabled            = false;
 	private float               debugRebuildStage;
+	
+	private WorldRenderer worldRenderer;
 	
 	
 
