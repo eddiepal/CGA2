@@ -64,6 +64,8 @@ public class MenuScreen extends AbstractGameScreen {
 	
 	private WorldRenderer worldRenderer;
 	
+	private WorldRenderer worldRenderer;
+	
 	
 
     @SuppressWarnings("unused")

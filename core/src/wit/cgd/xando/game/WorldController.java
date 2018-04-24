@@ -3,7 +3,10 @@ package wit.cgd.xando.game;
 import wit.cgd.xando.game.ai.CheckAndImpactPlayer;
 import wit.cgd.xando.game.ai.FirstSpacePlayer;
 import wit.cgd.xando.game.ai.MinimaxPlayer;
+<<<<<<< HEAD
 import wit.cgd.xando.game.util.Constants;
+=======
+>>>>>>> 89486b4428c53198bf46f0319bf96f3b2b219a1e
 import wit.cgd.xando.game.util.GamePreferences;
 import wit.cgd.xando.game.util.GameStats;
 
@@ -62,7 +65,11 @@ public class WorldController extends InputAdapter {
 		// MinimaxPlayer
 
 
+<<<<<<< HEAD
 /*	        if (!GamePreferences.instance.firstPlayerHuman) {
+=======
+	        if (!GamePreferences.instance.firstPlayerHuman) {
+>>>>>>> 89486b4428c53198bf46f0319bf96f3b2b219a1e
 	    		board.firstPlayer = new MinimaxPlayer(board, board.X);
 	    		board.secondPlayer = new HumanPlayer(board, board.O);
 	        }
@@ -79,10 +86,14 @@ public class WorldController extends InputAdapter {
 	        if (GamePreferences.instance.firstPlayerHuman&&GamePreferences.instance.secondPlayerHuman) {
 	    		board.firstPlayer = new HumanPlayer(board, board.X);
 	    		board.secondPlayer = new HumanPlayer(board, board.O);	
+<<<<<<< HEAD
 	    		*/
 	    	board.firstPlayer = prefs.getBoolean("firstPlayerHuman") ? new HumanPlayer(board, board.X): new MinimaxPlayer(board,board.X);
 	    	board.secondPlayer =prefs.getBoolean("secondPlayerHuman") ? new HumanPlayer(board, board.O): new MinimaxPlayer(board,board.O);
 	    
+=======
+	    }
+>>>>>>> 89486b4428c53198bf46f0319bf96f3b2b219a1e
 
 
 		timeLeftGameOverDelay = TIME_LEFT_GAME_OVER_DELAY;
