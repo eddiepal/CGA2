@@ -64,10 +64,6 @@ public class MenuScreen extends AbstractGameScreen {
 	
 	private WorldRenderer worldRenderer;
 	
-	private WorldRenderer worldRenderer;
-	
-	
-
     @SuppressWarnings("unused")
     private static final String TAG = MenuScreen.class.getName();
 
@@ -94,6 +90,7 @@ public class MenuScreen extends AbstractGameScreen {
         optionsWindowLayer = buildOptionsWindowLayer();
         stage.addActor(optionsWindowLayer);
         stage.addActor(optionsWindowLayer);
+        
     }
     
     private Table buildBackgroundLayer() {
@@ -209,7 +206,7 @@ public class MenuScreen extends AbstractGameScreen {
     
     private void onSaveClicked () {
     	  saveSettings();
-    	  onCancelClicked();
+    	  rebuildStage();
     	  AudioManager.instance.onSettingsUpdated();
     	}
 
@@ -350,13 +347,7 @@ public class MenuScreen extends AbstractGameScreen {
         musicSlider.setValue(prefs.musicVolume);
         soundCheckBox.setChecked(prefs.sound);
         soundSlider.setValue(prefs.soundVolume);
-        GameStats.instance.gameCount = prefs.gameCount;
-        
         prefs.load();
-        
-
-        // set each widget using values in prefs
-
     }
     
     private void saveSettings() {
@@ -369,8 +360,6 @@ public class MenuScreen extends AbstractGameScreen {
         prefs.musicVolume = musicSlider.getValue();
         prefs.sound = soundCheckBox.isChecked();
         prefs.soundVolume = soundSlider.getValue();
-        //prefs.gameCount = GameStats.instance.gameCount;
-        // save each widget value into prefs
         prefs.save();
     }
     

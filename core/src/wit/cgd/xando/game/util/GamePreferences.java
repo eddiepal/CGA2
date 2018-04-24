@@ -14,10 +14,8 @@ public class GamePreferences {
 	public boolean sound;
 	public float musicVolume;
 	public float soundVolume;
-<<<<<<< HEAD
 	public int gameCount;
-=======
->>>>>>> 89486b4428c53198bf46f0319bf96f3b2b219a1e
+
 	
     public static final String          TAG         = GamePreferences.class.getName();
 
@@ -39,10 +37,7 @@ public class GamePreferences {
     	sound = prefs.getBoolean("sound");
     	musicVolume = prefs.getFloat("musicVolume");
     	soundVolume = prefs.getFloat("soundVolume");
-<<<<<<< HEAD
-    	gameCount = prefs.getInteger("gameCount");
-=======
->>>>>>> 89486b4428c53198bf46f0319bf96f3b2b219a1e
+    	//gameCount = prefs.getInteger("gameCount");
     }
 
     public void save() {
@@ -54,10 +49,7 @@ public class GamePreferences {
     	prefs.putFloat("secondPlayerSkill", secondPlayerSkill);
     	prefs.putFloat("musicVolume", musicVolume);
     	prefs.putFloat("soundVolume", soundVolume);
-<<<<<<< HEAD
-    	prefs.putInteger("gameCount", gameCount);
-=======
->>>>>>> 89486b4428c53198bf46f0319bf96f3b2b219a1e
+    	//prefs.putInteger("gameCount", gameCount);
     	prefs.flush();
     }
 

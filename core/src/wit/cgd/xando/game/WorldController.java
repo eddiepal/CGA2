@@ -1,17 +1,13 @@
 package wit.cgd.xando.game;
 
 import wit.cgd.xando.game.ai.CheckAndImpactPlayer;
+
 import wit.cgd.xando.game.ai.FirstSpacePlayer;
 import wit.cgd.xando.game.ai.MinimaxPlayer;
-<<<<<<< HEAD
 import wit.cgd.xando.game.util.Constants;
-=======
->>>>>>> 89486b4428c53198bf46f0319bf96f3b2b219a1e
 import wit.cgd.xando.game.util.GamePreferences;
 import wit.cgd.xando.game.util.GameStats;
-
 import java.util.prefs.Preferences;
-
 import com.badlogic.gdx.Game;
 import wit.cgd.xando.screens.MenuScreen;
 import com.badlogic.gdx.Gdx;
@@ -29,7 +25,7 @@ public class WorldController extends InputAdapter {
 	public int width, height;
 	public Board board;
 	float timeLeftGameOverDelay;
-	final float TIME_LEFT_GAME_OVER_DELAY = 2;
+	final float TIME_LEFT_GAME_OVER_DELAY = 0;
 	GameStats stats;
 
 	final int GAME_COUNT = 100;
@@ -40,10 +36,12 @@ public class WorldController extends InputAdapter {
 	int dragX, dragY;
 	TextureRegion dragRegion;
 	com.badlogic.gdx.Preferences prefs = Gdx.app.getPreferences(Constants.PREFERENCES);
+	public MenuScreen menuScreen;
 
 	private void backToMenu() {
 		// switch to menu screen
 		game.setScreen(new MenuScreen(game));
+		
 	}
 
 	public WorldController(Game game) {
@@ -64,43 +62,14 @@ public class WorldController extends InputAdapter {
 		// CheckAndImpactPlayer
 		// MinimaxPlayer
 
-
-<<<<<<< HEAD
-/*	        if (!GamePreferences.instance.firstPlayerHuman) {
-=======
-	        if (!GamePreferences.instance.firstPlayerHuman) {
->>>>>>> 89486b4428c53198bf46f0319bf96f3b2b219a1e
-	    		board.firstPlayer = new MinimaxPlayer(board, board.X);
-	    		board.secondPlayer = new HumanPlayer(board, board.O);
-	        }
-	        
-	        if (!GamePreferences.instance.secondPlayerHuman) {
-	    		board.firstPlayer = new HumanPlayer(board, board.X);
-	    		board.secondPlayer = new MinimaxPlayer(board, board.O);
-	        }
-	        
-	        if (!GamePreferences.instance.firstPlayerHuman&&!GamePreferences.instance.secondPlayerHuman) {
-	    		board.firstPlayer = new MinimaxPlayer(board, board.X);
-	    		board.secondPlayer = new MinimaxPlayer(board, board.O);
-	        }
-	        if (GamePreferences.instance.firstPlayerHuman&&GamePreferences.instance.secondPlayerHuman) {
-	    		board.firstPlayer = new HumanPlayer(board, board.X);
-	    		board.secondPlayer = new HumanPlayer(board, board.O);	
-<<<<<<< HEAD
-	    		*/
-	    	board.firstPlayer = prefs.getBoolean("firstPlayerHuman") ? new HumanPlayer(board, board.X): new MinimaxPlayer(board,board.X);
-	    	board.secondPlayer =prefs.getBoolean("secondPlayerHuman") ? new HumanPlayer(board, board.O): new MinimaxPlayer(board,board.O);
-	    
-=======
-	    }
->>>>>>> 89486b4428c53198bf46f0319bf96f3b2b219a1e
-
+		board.firstPlayer = prefs.getBoolean("firstPlayerHuman") ? new HumanPlayer(board, board.X)
+				: new MinimaxPlayer(board, board.X);
+		board.secondPlayer = prefs.getBoolean("secondPlayerHuman") ? new HumanPlayer(board, board.O)
+				: new MinimaxPlayer(board, board.O);
 
 		timeLeftGameOverDelay = TIME_LEFT_GAME_OVER_DELAY;
 		board.start();
 	}
-	
-	
 
 	public void update(float deltaTime) {
 
@@ -108,15 +77,16 @@ public class WorldController extends InputAdapter {
 			board.move();
 		} else {
 			timeLeftGameOverDelay -= deltaTime;
-	        if (timeLeftGameOverDelay < 0) {
-	        	if (board.gameState== board.gameState.X_WON) {
-	        	    GameStats.instance.win();
-	        	} else if (board.gameState== board.gameState.O_WON) {
-	        	    GameStats.instance.lose();
-	        	} else {
-	        	    GameStats.instance.draw();
-	        	}
-                backToMenu();
+			if (timeLeftGameOverDelay < 0) {
+				if (board.gameState == board.gameState.X_WON) {
+					GameStats.instance.win();
+				} else if (board.gameState == board.gameState.O_WON) {
+					GameStats.instance.lose();
+				} else {
+					GameStats.instance.draw();
+				}
+				backToMenu();
+
 				if (gameCount == GAME_COUNT) {
 					Gdx.app.log(TAG,
 							"\nPlayeed " + gameCount + " games \t" + board.firstPlayer.name + " vs "
@@ -176,7 +146,6 @@ public class WorldController extends InputAdapter {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-
 
 		if (dragging == true) {
 			dragging = false;
