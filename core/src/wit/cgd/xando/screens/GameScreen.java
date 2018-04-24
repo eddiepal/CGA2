@@ -15,6 +15,7 @@ public class GameScreen extends AbstractGameScreen {
 
     private WorldController     worldController;
     private WorldRenderer       worldRenderer;
+    public MenuScreen			menuScreen;
 
     private boolean             paused;
 

@@ -3,12 +3,17 @@ package wit.cgd.xando.game;
 import wit.cgd.xando.game.ai.CheckAndImpactPlayer;
 import wit.cgd.xando.game.ai.FirstSpacePlayer;
 import wit.cgd.xando.game.ai.MinimaxPlayer;
+import wit.cgd.xando.game.util.Constants;
+import wit.cgd.xando.game.util.GamePreferences;
 import wit.cgd.xando.game.util.GameStats;
+
+import java.util.prefs.Preferences;
 
 import com.badlogic.gdx.Game;
 import wit.cgd.xando.screens.MenuScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -31,6 +36,7 @@ public class WorldController extends InputAdapter {
 	boolean dragging = false;
 	int dragX, dragY;
 	TextureRegion dragRegion;
+	com.badlogic.gdx.Preferences prefs = Gdx.app.getPreferences(Constants.PREFERENCES);
 
 	private void backToMenu() {
 		// switch to menu screen
@@ -54,9 +60,30 @@ public class WorldController extends InputAdapter {
 		// RandomImpactSpacePlayer
 		// CheckAndImpactPlayer
 		// MinimaxPlayer
-		
-		board.firstPlayer = new HumanPlayer(board, board.X);
-		board.secondPlayer = new HumanPlayer(board, board.O);
+
+
+/*	        if (!GamePreferences.instance.firstPlayerHuman) {
+	    		board.firstPlayer = new MinimaxPlayer(board, board.X);
+	    		board.secondPlayer = new HumanPlayer(board, board.O);
+	        }
+	        
+	        if (!GamePreferences.instance.secondPlayerHuman) {
+	    		board.firstPlayer = new HumanPlayer(board, board.X);
+	    		board.secondPlayer = new MinimaxPlayer(board, board.O);
+	        }
+	        
+	        if (!GamePreferences.instance.firstPlayerHuman&&!GamePreferences.instance.secondPlayerHuman) {
+	    		board.firstPlayer = new MinimaxPlayer(board, board.X);
+	    		board.secondPlayer = new MinimaxPlayer(board, board.O);
+	        }
+	        if (GamePreferences.instance.firstPlayerHuman&&GamePreferences.instance.secondPlayerHuman) {
+	    		board.firstPlayer = new HumanPlayer(board, board.X);
+	    		board.secondPlayer = new HumanPlayer(board, board.O);	
+	    		*/
+	    	board.firstPlayer = prefs.getBoolean("firstPlayerHuman") ? new HumanPlayer(board, board.X): new MinimaxPlayer(board,board.X);
+	    	board.secondPlayer =prefs.getBoolean("secondPlayerHuman") ? new HumanPlayer(board, board.O): new MinimaxPlayer(board,board.O);
+	    
+
 
 		timeLeftGameOverDelay = TIME_LEFT_GAME_OVER_DELAY;
 		board.start();
@@ -78,7 +105,7 @@ public class WorldController extends InputAdapter {
 	        	} else {
 	        	    GameStats.instance.draw();
 	        	}
-
+                backToMenu();
 				if (gameCount == GAME_COUNT) {
 					Gdx.app.log(TAG,
 							"\nPlayeed " + gameCount + " games \t" + board.firstPlayer.name + " vs "

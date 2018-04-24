@@ -2,18 +2,28 @@ package wit.cgd.xando.game.ai;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+
 import wit.cgd.xando.game.BasePlayer;
 import wit.cgd.xando.game.Board;
+import wit.cgd.xando.game.util.Constants;
 
 public class MinimaxPlayer extends BasePlayer {
 
     private Random randomGenerator;
+    Preferences prefs = Gdx.app.getPreferences(Constants.PREFERENCES);
 
     public MinimaxPlayer(Board board, int symbol) {
         super(board, symbol);
         name = "MinimaxPlayer";
 
-        skill = 5;  // skill is measure of search depth
+       
+        
+        String skillSelector = symbol ==1 ? "firstPlayerSkill" : "secondPlayerSkill";
+        
+        skill = (int) prefs.getFloat(skillSelector);
+        System.out.println("skill:" + skill);
 
         randomGenerator = new Random();
     }

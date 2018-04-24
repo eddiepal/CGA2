@@ -102,8 +102,6 @@ public class Assets implements Disposable, AssetErrorListener {
 		assetManager.finishLoading();
 		sounds = new AssetSounds(assetManager);
 		music = new AssetMusic(assetManager);
-		
-		
 	}
 	
 	public class AssetSounds {

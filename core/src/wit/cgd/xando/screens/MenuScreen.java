@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import wit.cgd.xando.game.WorldRenderer;
 import wit.cgd.xando.game.util.AudioManager;
 import wit.cgd.xando.game.util.Constants;
 import wit.cgd.xando.game.util.GamePreferences;
@@ -59,6 +60,9 @@ public class MenuScreen extends AbstractGameScreen {
 	private final float         DEBUG_REBUILD_INTERVAL  = 5.0f;
 	private boolean             debugEnabled            = false;
 	private float               debugRebuildStage;
+	GameStats stats;
+	
+	private WorldRenderer worldRenderer;
 	
 	
 
@@ -344,7 +348,10 @@ public class MenuScreen extends AbstractGameScreen {
         musicSlider.setValue(prefs.musicVolume);
         soundCheckBox.setChecked(prefs.sound);
         soundSlider.setValue(prefs.soundVolume);
+        GameStats.instance.gameCount = prefs.gameCount;
+        
         prefs.load();
+        
 
         // set each widget using values in prefs
 
@@ -360,9 +367,11 @@ public class MenuScreen extends AbstractGameScreen {
         prefs.musicVolume = musicSlider.getValue();
         prefs.sound = soundCheckBox.isChecked();
         prefs.soundVolume = soundSlider.getValue();
+        //prefs.gameCount = GameStats.instance.gameCount;
         // save each widget value into prefs
         prefs.save();
     }
+    
 
     @Override
     public void resize(int width, int height) {
